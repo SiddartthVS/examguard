@@ -10,6 +10,7 @@ type Event struct {
 }
 
 type LogRecord struct {
+	ComputerID string `json:"computer_id"`
 	Event    Event  `json:"event"`
 	PrevHash string `json:"prev_hash"`
 	Hash     string `json:"hash"`

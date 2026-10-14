@@ -10,6 +10,7 @@ var prevHash string
 func LogEvent(event Event) error {
 
 	record := LogRecord{
+		ComputerID: "Computer-1",
 		Event:    event,
 		PrevHash: prevHash,
 	}
