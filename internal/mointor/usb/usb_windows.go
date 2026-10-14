@@ -1,10 +1,12 @@
-package main
+package usb
 
 import (
 	"fmt"
 	"time"
 	"encoding/json"
 	"os/exec"
+	"examguard/internal/event"
+	"examguard/internal/logging"
 )
 
 type USBDevice struct {
@@ -71,14 +73,14 @@ func MonitorUSB() {
 
 		for id, device := range currentDevices {
 			if _, exists := knownDevices[id]; !exists {
-				event := Event{
+				evt := event.Event{
 					Time:    time.Now(),
 					Source:  "USB",
 					Type:    "USB_DEVICE_ADDED",
 					Details: fmt.Sprintf("%s (ID: %s)", device.Name, device.DeviceID),
 				}
 
-				if err := LogEvent(event); err != nil {
+				if err := logging.LogEvent(evt); err != nil {
 					fmt.Println("Logging failed:", err)
 					continue
 				}
@@ -89,14 +91,14 @@ func MonitorUSB() {
 
 		for id, device := range knownDevices {
 			if _, exists := currentDevices[id]; !exists {
-				event := Event{
-					Time:   time.Now(),
+				evt := event.Event{
+					Time:    time.Now(),
 					Source:  "USB",
 					Type:    "USB_DEVICE_REMOVED",
 					Details: fmt.Sprintf("%s (ID: %s)", device.Name, device.DeviceID),
 				}
 
-				if err := LogEvent(event); err != nil {
+				if err := logging.LogEvent(evt); err != nil {
 					fmt.Println("Logging failed:", err)
 					continue
 				}

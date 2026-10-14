@@ -1,10 +1,11 @@
-package main
+package logging
 
 import (
 	"bufio"
 	"encoding/json"
 	"fmt"
 	"os"
+	"examguard/internal/event"
 )
 
 func VerifyChain() error {
@@ -19,7 +20,7 @@ func VerifyChain() error {
 	count := 0
 
 	for reader.Scan() {
-		var record LogRecord
+		var record event.LogRecord
 
 		err := json.Unmarshal(reader.Bytes(), &record)
 		if err != nil {

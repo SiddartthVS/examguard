@@ -1,17 +1,18 @@
-package main
+package logging
 
 import (
 	"encoding/json"
 	"os"
+	"examguard/internal/event"
 )
 
 var prevHash string
 
-func LogEvent(event Event) error {
+func LogEvent(ev event.Event) error {
 
-	record := LogRecord{
+	record := event.LogRecord{
 		ComputerID: "Computer-1",
-		Event:    event,
+		Event:    ev,
 		PrevHash: prevHash,
 	}
 
